@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 import Helpers from './../libs/Helpers';
 import Validate from './../libs/Validate';
-import {actChangeNotify, actBuyProduct} from './../actions/index';
 import * as configs from './../constants/Config';
 
 class ProductItem extends Component {
@@ -24,10 +22,10 @@ class ProductItem extends Component {
     handleClick = (product) => {
       let quantity = +this.state.value; //+ mean is number(ep kieu du lieu)
       if (Validate.checkQuantity(quantity) === false) {
-        this.props.changeNotify(configs.NOTI_GREATER_THAN_ONE);
+        this.props.onChangeNotify(configs.NOTI_GREATER_THAN_ONE);
       } else {
-        this.props.buyProduct(product, quantity);
-        this.props.changeNotify(configs.NOTI_ACT_ADD);
+        this.props.onBuyProduct(product, quantity);
+        this.props.onChangeNotify(configs.NOTI_ACT_ADD);
         this.setState({value: 1})
       }
     }
@@ -68,15 +66,4 @@ class ProductItem extends Component {
     }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        buyProduct: (product, quantity) => {
-            dispatch(actBuyProduct(product, quantity));
-        },
-        changeNotify: (value) => {
-            dispatch(actChangeNotify(value));
-        }
-    }
-}
-
-export default connect(null, mapDispatchToProps)(ProductItem);
+export default ProductItem;
